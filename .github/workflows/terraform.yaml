@@ -1,0 +1,30 @@
+name: CI
+
+on: 
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Terraform Validate
+        uses: hashicorp/terraform-github-actions/validate@v0.2.0
+        with:
+          fetch-depth: 1
+        env:
+          TF_ACTION_WORKING_DIR:  "/github/workspace/examples"
+      - name: Terraform Format
+        uses: hashicorp/terraform-github-actions/fmt@v0.2.0
+        with:
+          fetch-depth: 1
+        env:
+          TF_ACTION_WORKING_DIR:  "."
+      - name: Terraform Init
+        uses: hashicorp/terraform-github-actions/init@v0.2.0
+        with:
+          fetch-depth: 1
+        env:
+          TF_ACTION_WORKING_DIR:  "."
